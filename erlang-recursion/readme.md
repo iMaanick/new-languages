@@ -4,6 +4,7 @@
 
 
 Пример файла "data.txt":
+
 {male, 25}.
  {female, 30}.
  {male, 23}.
