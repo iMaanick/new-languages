@@ -1,0 +1,7 @@
+{male, 25}.
+ {female, 30}.
+ {male, 23}.
+ {female, 32}.
+ {male, 21}.
+ {female, 20}.
+  {male, 26}.
