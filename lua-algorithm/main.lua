@@ -1,18 +1,18 @@
 function f(x, coef)
-    local f = 0
-    for l, line in ipairs(coef) do
-      f = f + line * x ^ (l - 1)
+    local poly = 0
+    for degree, coefficient in ipairs(coef) do
+      poly = poly + coefficient * x ^ (degree - 1)
     end
-    return f
+    return poly
   end
   
   -- Метод левых прямоугольников
-  function leftRectangleIntegration(a, b, n, coef)
-    local h = (b - a) / n
+  function leftRectangleIntegration(lowerLimit, upperLimit, n, coef)
+    local h = (upperLimit - lowerLimit) / n
     local sum = 0
   
     for i = 0, n - 1 do
-      local x = a + i * h
+      local x = lowerLimit + i * h
       sum = sum + f(x, coef) * h
     end
   
@@ -22,18 +22,18 @@ function f(x, coef)
   function readFile()
     io.input("data.txt")
     local coef = {}
-    local a = 0
-    local b = 0
+    local lowerLimit = 0
+    local upperLimit = 0
     local i = 1
     while true do
       local val = io.read("*number")
       if val == nil then break end
       if i == 1 then
-        a = val
+        lowerLimit = val
         i = i + 1
   
       elseif i == 2 then
-        b = val
+        upperLimit = val
         i = i + 1
   
       else 
@@ -42,18 +42,18 @@ function f(x, coef)
       end
     end
     io.close()
-    return a, b, coef
+    return lowerLimit, upperLimit, coef
   end
   
   -- Итеративное вычисление интеграла с заданной точностью
-  function integration(a, b, n, coef, targetAccuracy)
+  function integration(lowerLimit, upperLimit, n, coef, targetAccuracy)
     local currentAccuracy = math.huge -- текущая точность
     local previousIntegral = 0
-    local integral = 0
+    local integral = leftRectangleIntegration(lowerLimit, upperLimit, n, coef)
     while currentAccuracy > targetAccuracy do
-      previousIntegral = leftRectangleIntegration(a, b, n, coef)
+      previousIntegral = integral
       n = n * 2
-      integral = leftRectangleIntegration(a, b, n, coef)
+      integral = leftRectangleIntegration(lowerLimit, upperLimit, n, coef)
       currentAccuracy = math.abs(integral - previousIntegral)
     end
     return integral
@@ -64,9 +64,9 @@ function f(x, coef)
   -- Параметры интегрирования
   local targetAccuracy = 1e-3 -- заданная точность
   local n = 1 -- начальное количество интервалов
-  local a, b, coef = readFile()
+  local lowerLimit, upperLimit, coef = readFile()
   -- Итеративное вычисление интеграла с заданной точностью
-  local integral = integration(a, b, n, coef, targetAccuracy)
+  local integral = integration(lowerLimit, upperLimit, n, coef, targetAccuracy)
   
   print("Интеграл:", integral)
   print("done")
