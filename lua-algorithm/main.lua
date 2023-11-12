@@ -6,7 +6,6 @@ function f(x, coef)
     return poly
   end
   
-  -- Метод левых прямоугольников
   function leftRectangleIntegration(lowerLimit, upperLimit, n, coef)
     local h = (upperLimit - lowerLimit) / n
     local sum = 0
@@ -45,7 +44,6 @@ function f(x, coef)
     return lowerLimit, upperLimit, coef
   end
   
-  -- Итеративное вычисление интеграла с заданной точностью
   function integration(lowerLimit, upperLimit, n, coef, targetAccuracy)
     local currentAccuracy = math.huge -- текущая точность
     local previousIntegral = 0
@@ -61,11 +59,9 @@ function f(x, coef)
   
   
   
-  -- Параметры интегрирования
-  local targetAccuracy = 1e-3 -- заданная точность
-  local n = 1 -- начальное количество интервалов
+  local targetAccuracy = 1e-3 
+  local n = 1 
   local lowerLimit, upperLimit, coef = readFile()
-  -- Итеративное вычисление интеграла с заданной точностью
   local integral = integration(lowerLimit, upperLimit, n, coef, targetAccuracy)
   
   print("Интеграл:", integral)
